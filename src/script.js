@@ -24,7 +24,7 @@ function operate(operand1, operator, operand2) {
             return add(operand1, operand2);
         case '-':
             return subtract(operand1, operand2);
-        case '*':
+        case 'x':
             return multiply(operand1, operand2);
         case '/':
             return divide(operand1, operand2);
@@ -37,12 +37,16 @@ const display = document.getElementById("display");
 let displayedSequence = [];
 
 function isOperatorPressed() {
-    if (isNaN(displayedSequence.slice(-1))) {
-        console.log("Operator pressed");
-        operand1 = parseInt(displayedSequence.join(""));
+    if (isNaN(displayedSequence[0])) {
+        console.log("Operator pressed, found at the start of the sequence");
+        operator = displayedSequence[0];
+        displayedSequence.splice(0, displayedSequence.length);
+    }
+    else if (isNaN(displayedSequence.slice(-1))) {
+        console.log("Operator pressed, found at the end of the sequence");
+        operand1 = parseInt(displayedSequence.slice(0, -1).join(""));
         operator = displayedSequence.slice(-1).join("");
         displayedSequence.splice(0, displayedSequence.length);
-        console.log(displayedSequence);
     }
 }
 
@@ -66,4 +70,6 @@ calculateButton.addEventListener("click", () => {
     console.log("Equals sign button pressed");
     result = operate(operand1, operator, parseInt(displayedSequence.join("")));
     display.innerText = result;
+    operand1 = result;
+    displayedSequence.splice(0, displayedSequence.length);
 });
