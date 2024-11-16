@@ -14,62 +14,104 @@ function divide(num1, num2) {
     return num1 === 0 || num2 === 0 ? "Error" : num1 / num2;
 }
 
-let operand1;
-let operator;
-let result;
-
 function operate(operand1, operator, operand2) {
     switch(operator) {
-        case '+':
-            return add(operand1, operand2);
-        case '-':
-            return subtract(operand1, operand2);
-        case 'x':
-            return multiply(operand1, operand2);
-        case '/':
-            return divide(operand1, operand2);
+        case '+': return add(operand1, operand2);
+        case '-': return subtract(operand1, operand2);
+        case 'x': return multiply(operand1, operand2);
+        case '/': return divide(operand1, operand2);
+        default: return null;
     }
 }
 
-const operationButtons = document.querySelectorAll(".operationBtn");
-const display = document.getElementById("display");
-
+let operand1 = undefined;
+let operator = undefined;
+let operand2 = undefined;
+let result = undefined;
 let displayedSequence = [];
 
-function isOperatorPressed() {
-    if (isNaN(displayedSequence[0])) {
-        console.log("Operator pressed, found at the start of the sequence");
-        operator = displayedSequence[0];
-        displayedSequence.splice(0, displayedSequence.length);
-    }
-    else if (isNaN(displayedSequence.slice(-1))) {
-        console.log("Operator pressed, found at the end of the sequence");
-        operand1 = parseInt(displayedSequence.slice(0, -1).join(""));
-        operator = displayedSequence.slice(-1).join("");
-        displayedSequence.splice(0, displayedSequence.length);
-    }
+const numButtons = document.querySelectorAll(".numBtn");
+const operatorButtons = document.querySelectorAll(".operatorBtn");
+const display = document.getElementById("display");
+const clearButton = document.getElementById("clear");
+const calculateButton = document.getElementById("calculate");
+
+function resetSequence() {
+    displayedSequence = [];
 }
 
-operationButtons.forEach((button) => {
+function updateDisplay() {
+    display.innerText = displayedSequence.join("") || "0";
+}
+
+function isOperatorActive() {
+    return document.querySelector(".activeOperator") !== null;
+}
+
+function clearOperatorHighlight() {
+    operatorButtons.forEach(btn => btn.classList.remove("activeOperator"));
+}
+
+numButtons.forEach(button => {
     button.addEventListener("click", () => {
+        if (operand1 === "Error") {
+            console.log("Resetting due to 'Error'");
+            operand1 = undefined;
+            operator = undefined;
+            operand2 = undefined;
+            result = undefined;
+            resetSequence();
+            clearOperatorHighlight();
+        }
+        if (button.innerText === "0" && displayedSequence.length === 0) {
+            return;
+        }
+        if (isOperatorActive()) {
+            if (operand1 === undefined) {
+                operand1 = parseInt(displayedSequence.join("")) || 0;
+                console.log("Operand1 set to:", operand1);
+            }
+            clearOperatorHighlight();
+            resetSequence();
+        }
         displayedSequence.push(button.innerText);
-        display.innerText = displayedSequence.join("");
-        isOperatorPressed();
+        updateDisplay();
     });
 });
 
-const clearButton = document.getElementById("clear");
-clearButton.addEventListener("click", () => {
-    console.log("Clear button pressed")
-    display.innerText = "0";
-    displayedSequence.splice(0, displayedSequence.length);
+operatorButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        clearOperatorHighlight();
+        button.classList.add("activeOperator");
+        operator = button.innerText;
+        console.log("Operator selected:", operator);
+    });
 });
 
-const calculateButton = document.getElementById("calculate");
+clearButton.addEventListener("click", () => {
+    console.log("Clear button pressed");
+    operand1 = undefined;
+    operand2 = undefined;
+    operator = undefined;
+    result = undefined;
+    clearOperatorHighlight();
+    resetSequence();
+    updateDisplay();
+});
+
 calculateButton.addEventListener("click", () => {
-    console.log("Equals sign button pressed");
-    result = operate(operand1, operator, parseInt(displayedSequence.join("")));
+    console.log("Equals button pressed");
+    if (operand1 === undefined || operator === undefined) {
+        console.log("Incomplete operation");
+        return;
+    } 
+    operand2 = parseInt(displayedSequence.join("")) || 0;
+    console.log("Operand2 set to:", operand2);
+
+    result = operate(operand1, operator, operand2);
+    console.log(`Result of ${operand1} ${operator} ${operand2} =`, result);
+
     display.innerText = result;
     operand1 = result;
-    displayedSequence.splice(0, displayedSequence.length);
+    resetSequence();
 });
