@@ -35,6 +35,7 @@ const operatorButtons = document.querySelectorAll(".operatorBtn");
 const display = document.getElementById("display");
 const clearButton = document.getElementById("clear");
 const calculateButton = document.getElementById("calculate");
+const deleteButton = document.getElementById("delete");
 
 function resetSequence() {
     displayedSequence = [];
@@ -98,6 +99,12 @@ clearButton.addEventListener("click", () => {
     resetSequence();
     updateDisplay();
 });
+
+deleteButton.addEventListener("click", () => {
+    console.log("Delete button pressed");
+    displayedSequence.pop();
+    updateDisplay();
+})
 
 calculateButton.addEventListener("click", () => {
     console.log("Equals button pressed");
