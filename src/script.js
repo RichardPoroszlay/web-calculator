@@ -33,9 +33,10 @@ let displayedSequence = [];
 const numButtons = document.querySelectorAll(".numBtn");
 const operatorButtons = document.querySelectorAll(".operatorBtn");
 const display = document.getElementById("display");
+const percentageButton = document.getElementById("percentage");
 const clearButton = document.getElementById("clear");
-const calculateButton = document.getElementById("calculate");
 const deleteButton = document.getElementById("delete");
+const calculateButton = document.getElementById("calculate");
 
 function resetSequence() {
     displayedSequence = [];
@@ -69,7 +70,7 @@ numButtons.forEach(button => {
         }
         if (isOperatorActive()) {
             if (operand1 === undefined) {
-                operand1 = parseInt(displayedSequence.join("")) || 0;
+                operand1 = parseFloat(displayedSequence.join("")) || 0;
                 console.log("Operand1 set to:", operand1);
             }
             clearOperatorHighlight();
@@ -100,9 +101,31 @@ clearButton.addEventListener("click", () => {
     updateDisplay();
 });
 
+percentageButton.addEventListener("click", () => {
+    console.log("Percentage button pressed");
+    if (displayedSequence.length === 0) {
+        console.log("Can't get the percentage of zero");
+        return;
+    }
+
+    let percentageResult = parseFloat(displayedSequence.join("")) / 100;
+
+    if (operand1 === undefined) {
+        operand1 = percentageResult;
+    }
+
+    clearOperatorHighlight();
+    resetSequence();
+
+    displayedSequence.push(percentageResult.toString());
+
+    updateDisplay();
+})
+
 deleteButton.addEventListener("click", () => {
     console.log("Delete button pressed");
     displayedSequence.pop();
+    clearOperatorHighlight();
     updateDisplay();
 })
 
@@ -112,7 +135,7 @@ calculateButton.addEventListener("click", () => {
         console.log("Incomplete operation");
         return;
     } 
-    operand2 = parseInt(displayedSequence.join("")) || 0;
+    operand2 = parseFloat(displayedSequence.join("")) || 0;
     console.log("Operand2 set to:", operand2);
 
     result = operate(operand1, operator, operand2);
@@ -121,4 +144,5 @@ calculateButton.addEventListener("click", () => {
     display.innerText = result;
     operand1 = result;
     resetSequence();
+    displayedSequence.push(operand1);
 });
