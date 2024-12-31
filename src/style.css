@@ -1,3 +1,99 @@
+/* General Styling */
+body {
+  background-color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+#calculator {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 15px;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#display {
+  background-color: #f9f9f9;
+  border-bottom: 2px solid black;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  font-size: 2rem;
+  text-align: right;
+  padding: 10px;
+  height: 60px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: black;
+  box-sizing: border-box;
+}
+
+#buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  height: 60px;
+  font-size: 1.2rem;
+  color: black;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #f0f0f0;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Special button styles */
+#calculate {
+  background-color: black;
+  color: white;
+}
+
+#calculate:hover {
+  background-color: #333;
+}
+
 .activeOperator {
-    background-color: red;
+  background-color: black;
+  color: white;
+}
+
+/* Buttons layout */
+#clear {
+  grid-column: span 1;
+}
+
+#plusMinus {
+  grid-column: span 1;
+}
+
+#zero {
+  grid-column: span 2;
+}
+
+#percentage {
+  grid-column: span 1;
+}
+
+#delete {
+  grid-column: span 1;
 }
