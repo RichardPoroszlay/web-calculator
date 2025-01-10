@@ -82,8 +82,10 @@ numButtons.forEach((button) => {
       clearOperatorHighlight();
       resetSequence();
     }
+
     displayedSequence.push(button.innerText);
     updateDisplay();
+    console.log(displayedSequence);
   });
 });
 
@@ -115,6 +117,7 @@ plusMinusButton.addEventListener("click", () => {
   }
 
   let invertedValue = parseFloat(displayedSequence.join("")) * -1;
+  operand1 = invertedValue;
 
   clearOperatorHighlight();
   resetSequence();
@@ -167,5 +170,6 @@ calculateButton.addEventListener("click", () => {
   display.innerText = result;
   operand1 = result;
   resetSequence();
-  displayedSequence.push(operand1);
+  displayedSequence.push(operand1.toString());
+  console.log(displayedSequence);
 });

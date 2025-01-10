@@ -1,12 +1,18 @@
-/* General Styling */
+/* General styling */
+html,
 body {
   background-color: white;
   font-family: Arial, sans-serif;
+  height: 100%;
+  margin: 0;
+}
+
+.mainContainer {
   display: flex;
+  height: 100%;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
 }
 
 #calculator {
@@ -96,4 +102,24 @@ button:active {
 
 #delete {
   grid-column: span 1;
+}
+
+/** Footer styles **/
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  padding: 15px;
+}
+
+.fa-github {
+  color: #000;
+  font-size: 20px;
+  margin-left: 5px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.fa-github:hover {
+  transform: rotate(360deg) scale(1.2);
 }
